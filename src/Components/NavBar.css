@@ -1,0 +1,117 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Navbar Container */
+  .navbar {
+    position: fixed; /* Fix the navbar to the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1702fa; /* Dark background */
+    color: white;
+    display: flex;
+    justify-content: space-between; /* Space between the elements */
+    align-items: center;
+    padding: 15px 30px;
+    z-index: 1000; /* Ensure it stays above other content */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  }
+  
+  /* Logo Styling */
+  .navbar-logo a {
+    color: white;
+    font-size: 1.8rem;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* Search Bar Styling */
+  .navbar-search {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-input {
+    padding: 8px;
+    font-size: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .search-button {
+    padding: 8px 15px;
+    background-color: #ff9800;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: #e68900; /* Darken on hover */
+  }
+  
+  /* Navbar Links Styling */
+  .navbar-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.0rem;
+  }
+  
+  .navbar-links a:hover {
+    color: #ff9800; /* Highlight color for links */
+  }
+  
+  /* Shopping Cart Icon */
+  .navbar-cart {
+    display: flex;
+    align-items: center;
+    color: white;
+    position: relative;
+  }
+  
+  .navbar-cart .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 1rem;
+  }
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navbar-search,
+    .navbar-links {
+      margin-top: 10px;
+      width: 100%;
+    }
+  
+    .navbar-search {
+      display: flex;
+      justify-content: center;
+    }
+  
+    .navbar-links {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+  
