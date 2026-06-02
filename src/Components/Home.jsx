@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import "./Home.css"; 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -25,6 +26,18 @@ const Home = () => {
     { id: 7, name: "Product 7", price: "$20", image: "https://m.media-amazon.com/images/I/81bMZZLa6RL._AC_UF1000,1000_QL80_.jpg" },
     { id: 8, name: "Product 8", price: "$60", image: "https://www.oldprophet.com/cdn/shop/products/OP-0201-PLANS-HE-HAS-WHITE-WOMENS-OP-0201_1200x1200.png?v=1579764404" },
   ];
+  const [selectedProduct, setSelectedProduct] = useState(null);
+const [openPopup, setOpenPopup] = useState(false);
+
+const handleBuyNow = (product) => {
+  setSelectedProduct(product);
+  setOpenPopup(true);
+};
+
+const closePopup = () => {
+  setOpenPopup(false);
+  setSelectedProduct(null);
+};
 
   return (
     <div className="home">
@@ -58,7 +71,13 @@ const Home = () => {
             <img src={product.image} alt={product.name} />
             <h3>{product.name}</h3>
             <p>{product.price}</p>
-            <a href="/Order"><button className="buy-now">Buy Now</button></a>
+          
+            <button
+  className="buy-now"
+  onClick={() => handleBuyNow(product)}
+>
+  Buy Now
+</button>
           </div>
         ))}
       </div>
@@ -93,7 +112,43 @@ const Home = () => {
           </div>
         ))}
       </div>
+{openPopup && (
+  <div className="popup-overlay">
+    <div className="popup">
+      <h2>Order Confirmation</h2>
 
+      <img
+        src={selectedProduct?.image}
+        alt={selectedProduct?.name}
+        className="popup-image"
+      />
+
+      <h3>{selectedProduct?.name}</h3>
+      <p>Price: {selectedProduct?.price}</p>
+
+      <div className="popup-buttons">
+        <button
+          className="confirm-btn"
+          onClick={() => {
+            alert(
+              `${selectedProduct?.name} added successfully!`
+            );
+            closePopup();
+          }}
+        >
+          Confirm Order
+        </button>
+
+        <button
+          className="cancel-btn"
+          onClick={closePopup}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       {/* Footer Section */}
       <footer className="footer-details">
         <div className="footer-content">
