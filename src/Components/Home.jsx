@@ -1,6 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import CountUp from "react-countup";
+import { useState,useEffect } from "react";
 import "./Home.css"; 
+import MouseTrail from "./MouseTrail";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -26,12 +28,85 @@ const Home = () => {
     { id: 7, name: "Product 7", price: "$20", image: "https://m.media-amazon.com/images/I/81bMZZLa6RL._AC_UF1000,1000_QL80_.jpg" },
     { id: 8, name: "Product 8", price: "$60", image: "https://www.oldprophet.com/cdn/shop/products/OP-0201-PLANS-HE-HAS-WHITE-WOMENS-OP-0201_1200x1200.png?v=1579764404" },
   ];
+  
+  const [displayStats, setDisplayStats] = useState({
+  totalProducts: 0,
+  totalUsers: 0,
+  totalCategories: 0,
+});
+const animateCount = (finalStats) => {
+    const duration = 1000;
+    const steps = 50;
+
+    const increment = {
+      totalProducts: finalStats.totalProducts / steps,
+      totalUsers: finalStats.totalUsers / steps,
+      totalCategories: finalStats.totalCategories / steps,
+    };
+
+    let current = {
+      totalProducts: 0,
+      totalUsers: 0,
+      totalCategories: 0,
+    };
+
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+
+      current.totalProducts += increment.totalProducts;
+      current.totalUsers += increment.totalUsers;
+      current.totalCategories += increment.totalCategories;
+
+      setDisplayStats({
+        totalProducts: Math.floor(current.totalProducts),
+        totalUsers: Math.floor(current.totalUsers),
+        totalCategories: Math.floor(current.totalCategories),
+      });
+
+      if (step >= steps) {
+        clearInterval(timer);
+        setDisplayStats(finalStats);
+      }
+    }, duration / steps);
+  };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const productsRes = await fetch("https://dummyjson.com/products");
+      const productsData = await productsRes.json();
+
+      const usersRes = await fetch("https://dummyjson.com/users");
+      const usersData = await usersRes.json();
+
+      const categoriesRes = await fetch(
+        "https://dummyjson.com/products/categories"
+      );
+      const categoriesData = await categoriesRes.json();
+
+      const finalStats = {
+        totalProducts: productsData.total,
+        totalUsers: usersData.total,
+        totalCategories: categoriesData.length,
+      };
+
+      animateCount(finalStats);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchData();
+}, []);
+
   const [selectedProduct, setSelectedProduct] = useState(null);
 const [openPopup, setOpenPopup] = useState(false);
 
 const handleBuyNow = (product) => {
   setSelectedProduct(product);
   setOpenPopup(true);
+
 };
 
 const closePopup = () => {
@@ -41,6 +116,7 @@ const closePopup = () => {
 
   return (
     <div className="home">
+      <MouseTrail />
       {/* Slideshow Section */}
       <Carousel
         showThumbs={false}
@@ -49,15 +125,26 @@ const closePopup = () => {
         interval={3000}
         showStatus={false}
       >
-        <div>
-          <img src="https://thumbs.dreamstime.com/z/kite-festival-sale-traditional-indian-celebration-makar-sankranti-special-discount-offer-banner-colorful-flying-kites-kite-204489864.jpg" alt="Slide 1" />
-        </div>
-        <div>
-          <img src="https://static.vecteezy.com/system/resources/previews/023/072/057/non_2x/makar-sankranti-sale-header-or-banner-design-with-discount-offer-and-kites-on-white-mandala-pattern-background-vector.jpg" alt="Slide 2" />
-        </div>
-        <div>
-          <img src="https://images.fonearena.com/blog/wp-content/uploads/2024/01/Pongal-and-Sankranti-Festive-Store-1024x438.jpg" alt="Slide 3" />
-        </div>
+        {/* Dashboard Section */}
+{/* Dashboard */}
+<div className="dashboard">
+
+  <div className="dashboard-card">
+    <h2>{displayStats.totalProducts}</h2>
+    <p>Total Products</p>
+  </div>
+
+  <div className="dashboard-card">
+    <h2>{displayStats.totalUsers}</h2>
+    <p>Total Users</p>
+  </div>
+
+  <div className="dashboard-card">
+    <h2>{displayStats.totalCategories}</h2>
+    <p>Categories</p>
+  </div>
+
+</div>
       </Carousel>
 
       {/* Shopping Cards Section */}

@@ -227,4 +227,37 @@ body {
     margin: 0 auto;
     line-height: 1.6;
   }
-  
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 70px;
+  background: #f8f9fa;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  background-color: #ff9800;
+  color:white;
+}
+
+.dashboard-card h2 {
+  font-size: 32px;
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+.dashboard-card p {
+  color: #666;
+  font-size: 18px;
+  margin: 0;
+}
